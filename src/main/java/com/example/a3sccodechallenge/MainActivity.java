@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         nextButton.setEnabled(nextUrl != null);
         backButton.setEnabled(backUrl != null);
 
-        pokemonData = new PokemonData[20];
+        pokemonData = new PokemonData[21];
         for(int i=0;i<pokemonData.length;i++)
         {
             int startIndex = pokemon.indexOf('{', index);
