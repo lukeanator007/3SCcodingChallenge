@@ -1,7 +1,10 @@
 package com.example.a3sccodechallenge;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,7 @@ public class MainActivity extends AppCompatActivity
 
     private ActivityMainBinding binding;
     private ListView pokemonListView;
+    private ImageCache imageCache;
 
     private PokemonData[] pokemonData;
 
@@ -26,15 +30,24 @@ public class MainActivity extends AppCompatActivity
 
         searchPokemon();
         pokemonListView = findViewById(R.id.pokemon_list);
+        imageCache = new ImageCache(findViewById(R.id.pokemon_sprite));
         if(pokemonListView == null) System.out.println("thing");
 
         ArrayAdapter<PokemonData> adapter = new ArrayAdapter<PokemonData>(this, android.R.layout.simple_list_item_1, pokemonData);
         pokemonListView.setAdapter(adapter);
+
+        pokemonListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                imageCache.getImage(pokemonData[position]);
+            }
+        });
     }
 
     private void searchPokemon()
     {
-
         String response = null;
         try
         {

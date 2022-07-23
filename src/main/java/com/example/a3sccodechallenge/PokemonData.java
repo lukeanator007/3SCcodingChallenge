@@ -1,7 +1,11 @@
 package com.example.a3sccodechallenge;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class PokemonData
-{private String name;
+{
+    private String name;
     private String url;
     public PokemonData(String json)
     {
@@ -9,6 +13,12 @@ public class PokemonData
 
         name = JsonHelper.parseString(data[0]);
         url = JsonHelper.parseString(data[1]);
+    }
+
+    public URL getUrl() throws MalformedURLException
+    {
+        return new URL(url);
+
     }
 
     @Override
