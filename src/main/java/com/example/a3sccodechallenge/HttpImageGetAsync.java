@@ -49,7 +49,6 @@ public class HttpImageGetAsync extends AsyncTask<PokemonData, Void, Bitmap>
         finally
         {
             if(urlConnection != null) urlConnection.disconnect();
-            System.out.println(9);
         }
 
         Bitmap image = null;
