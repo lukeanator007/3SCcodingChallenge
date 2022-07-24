@@ -18,12 +18,28 @@ public class PokemonData
     public URL getUrl() throws MalformedURLException
     {
         return new URL(url);
-
     }
 
     @Override
     public String toString()
     {
         return this.name;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj.getClass().equals(this.getClass()))
+        {
+            PokemonData other = (PokemonData) obj;
+            return other.name.equals(this.name);
+        }
+        return false;
     }
 }

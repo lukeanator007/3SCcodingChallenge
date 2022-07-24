@@ -11,19 +11,25 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class HttpImageGetAsync extends AsyncTask<PokemonData, Void, Bitmap>
 {
-        ImageView bmImage;
+    private ImageView bmImage;
+    private HashMap<PokemonData, Bitmap> map;
 
-    public HttpImageGetAsync(ImageView bmImage)
+    public HttpImageGetAsync(ImageView bmImage, HashMap<PokemonData, Bitmap> map)
     {
         this.bmImage = bmImage;
+        this.map = map;
     }
 
     protected Bitmap doInBackground(PokemonData... pokemon)
     {
+        Bitmap cached = map.get(pokemon[0]);
+        if(cached!=null) return cached;
+
         URL imageURL = null;
         HttpURLConnection urlConnection = null;
         try
@@ -34,9 +40,19 @@ public class HttpImageGetAsync extends AsyncTask<PokemonData, Void, Bitmap>
             Scanner scanner = new Scanner(response);
             String pokemonJson = scanner.useDelimiter("\\A").next();
 
-            String[] pokemonSpritesJson = JsonHelper.parseJson(new String[] {"sprites"}, pokemonJson);
-            String[] pokemonImageJson = JsonHelper.parseJson(new String[] {"front_default"}, pokemonSpritesJson[0]);
-            imageURL = new URL(JsonHelper.parseString(pokemonImageJson[0]));
+            String pokemonSpritesJson = JsonHelper.parseJson(new String[] {"sprites"}, pokemonJson)[0];
+            String pokemonImageJson = null;
+//            String pokemonImageJson = JsonHelper.parseJson(new String[] {"front_default"}, pokemonSpritesJson)[0];
+//            pokemonImageJson = JsonHelper.parseString(pokemonImageJson);
+
+            if(pokemonImageJson == null)
+            {
+                String pokemonSpritesHomeJson = JsonHelper.parseJson(new String[] {"home"}, pokemonSpritesJson)[0];
+                pokemonImageJson = JsonHelper.parseJson(new String[] {"front_default"}, pokemonSpritesHomeJson)[0];
+                pokemonImageJson = JsonHelper.parseString(pokemonImageJson);
+            }
+
+            imageURL = new URL(pokemonImageJson);
         }
         catch (MalformedURLException e)
         {
@@ -62,6 +78,7 @@ public class HttpImageGetAsync extends AsyncTask<PokemonData, Void, Bitmap>
         {
             e.printStackTrace();
         }
+        map.put(pokemon[0], image);
         return image;
     }
 

@@ -45,7 +45,6 @@ public  class JsonHelper
 
     public static String parseString(String str)
     {
-        System.out.println(str);
         if(str.equals("null")) return null;
         else return str.substring(1, str.length()-1);
     }
