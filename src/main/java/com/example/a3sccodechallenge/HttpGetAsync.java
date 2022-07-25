@@ -9,9 +9,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class HttpGetAsync extends AsyncTask<String, Void, String>
 {
+    private Consumer<String> onPostExecute;
+    public HttpGetAsync(Consumer<String> onPostExecute)
+    {
+        this.onPostExecute = onPostExecute;
+    }
+
     @Override
     protected String doInBackground(String... strings)
     {
@@ -41,5 +48,11 @@ public class HttpGetAsync extends AsyncTask<String, Void, String>
         }
 
         return result;
+    }
+
+    @Override
+    protected void onPostExecute(String result)
+    {
+        this.onPostExecute.accept(result);
     }
 }

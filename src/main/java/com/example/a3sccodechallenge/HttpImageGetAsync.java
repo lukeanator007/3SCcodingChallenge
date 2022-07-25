@@ -42,8 +42,6 @@ public class HttpImageGetAsync extends AsyncTask<PokemonData, Void, Bitmap>
 
             String pokemonSpritesJson = JsonHelper.parseJson(new String[] {"sprites"}, pokemonJson)[0];
             String pokemonImageJson = null;
-//            String pokemonImageJson = JsonHelper.parseJson(new String[] {"front_default"}, pokemonSpritesJson)[0];
-//            pokemonImageJson = JsonHelper.parseString(pokemonImageJson);
 
             if(pokemonImageJson == null)
             {

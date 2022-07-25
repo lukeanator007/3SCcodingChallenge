@@ -20,6 +20,11 @@ public class PokemonData
         return new URL(url);
     }
 
+    public String getUrlString()
+    {
+        return this.url;
+    }
+
     @Override
     public String toString()
     {
